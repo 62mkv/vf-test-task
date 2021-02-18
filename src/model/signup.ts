@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsAlpha, IsAlphanumeric, IsEmail, IsNotEmpty, IsNotEmptyObject, Length, max } from "class-validator";
+import { IsAlpha, IsAlphanumeric, IsEmail, IsNotEmpty, Length } from "class-validator";
+import { IsOlderThan } from "src/validation/date.validation";
 
 export type SignupResult = Success | Failure;
 
@@ -22,7 +23,10 @@ export class SignupUserDetails {
 
     @ApiProperty({ description: "Date of birth", required: true, format: "date", example: "2007-02-24"})
     @IsNotEmpty()
-    dateOfBirth: string;
+    @IsOlderThan(18, {
+        message: "Must be older than 18 years"
+    })
+    dateOfBirth: Date;
     
     @ApiProperty({ description: "Email address", required: false, format: "email", example: "elon777@gmail.tg"}) 
     @IsEmail()
