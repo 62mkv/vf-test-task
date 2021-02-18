@@ -10,6 +10,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Upload storage
+/uploads
+
 # OS
 .DS_Store
 
