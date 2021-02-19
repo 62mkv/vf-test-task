@@ -2,10 +2,12 @@ import { Body, Controller, HttpException, HttpStatus, Logger, Post, UploadedFile
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { FileValidatingInterceptor } from './interceptor/file-validating.interceptor';
+import { FileFinalizingInterceptor } from './interceptor/file-finalizing.interceptor';
 import { SignupResult, SignupUserDetails, Success } from './model/signup';
+import { fileDeleteAfterCompletion, fileSizeChecker } from './utils/file-utils';
 
 const IMAGE_MIN_SIZE = 1000;
+const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
 
 @ApiTags('main')
 @Controller()
@@ -21,7 +23,7 @@ export class AppController {
     FileInterceptor('documentImage', {
         dest: './uploads',
         limits: {
-            fileSize: 5 * 1024 * 1024,
+            fileSize: IMAGE_MAX_SIZE,
         },
         fileFilter: function(req, file, cb) {
             if (file?.mimetype?.endsWith("jpeg")) {
@@ -30,12 +32,9 @@ export class AppController {
                 cb(new HttpException("Image must be in JPEG format!", HttpStatus.BAD_REQUEST), false);
             }
         }
-    }), 
-    new FileValidatingInterceptor(file => {
-        if (file?.size < IMAGE_MIN_SIZE) {
-            throw new HttpException(`Image must be longer than ${IMAGE_MIN_SIZE}`, HttpStatus.BAD_REQUEST);
-        }
-    })
+    }),
+    new FileFinalizingInterceptor((file) => {}, fileDeleteAfterCompletion), 
+    new FileFinalizingInterceptor(fileSizeChecker(IMAGE_MIN_SIZE), (file) => {})    
    )
   signup(
     @Body() userDetails: SignupUserDetails,
@@ -46,4 +45,5 @@ export class AppController {
       let result: Success = { id: 1, kind: "success"};
       return result;
   }
+
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsAlpha, IsAlphanumeric, IsEmail, IsNotEmpty, Length } from "class-validator";
+import { IsAlpha, IsAlphanumeric, IsEmail, IsNotEmpty, Length, Min } from "class-validator";
 import { IsOlderThan } from "src/validation/date.validation";
 
 export type SignupResult = Success | Failure;
