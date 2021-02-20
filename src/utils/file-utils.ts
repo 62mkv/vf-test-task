@@ -1,4 +1,6 @@
 import * as fs from 'fs';
+
+// TODO: these have to be changed to use custom exceptions + exception filter to convert into HTTP 400
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { FileDefinition } from "src/model/file-definition";
 

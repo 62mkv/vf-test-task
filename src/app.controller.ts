@@ -2,7 +2,7 @@ import { Body, Controller, HttpException, HttpStatus, Logger, Post, UploadedFile
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { FileFinalizingInterceptor } from './interceptor/file-finalizing.interceptor';
+import { ControlMode, FileControlInterceptor } from './interceptor/file-control.interceptor';
 import { SignupResult, SignupUserDetails, Success } from './model/signup';
 import { fileDeleteAfterCompletion, fileSizeChecker } from './utils/file-utils';
 
@@ -33,8 +33,8 @@ export class AppController {
             }
         }
     }),
-    new FileFinalizingInterceptor((file) => {}, fileDeleteAfterCompletion), 
-    new FileFinalizingInterceptor(fileSizeChecker(IMAGE_MIN_SIZE), (file) => {})    
+    new FileControlInterceptor(fileDeleteAfterCompletion, ControlMode.FINALLY), 
+    new FileControlInterceptor(fileSizeChecker(IMAGE_MIN_SIZE), ControlMode.BEFORE),
    )
   signup(
     @Body() userDetails: SignupUserDetails,
