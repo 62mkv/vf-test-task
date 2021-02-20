@@ -1,14 +1,14 @@
-import * as crypto from "crypto";
 import { HttpException, HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response, NextFunction } from 'express';
+import { SignatureService } from 'src/service/signature.service';
 
 const X_AUTH_CLIENT = 'x-auth-client';
 const X_SIGNATURE = 'x-signature';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-    constructor(private configService: ConfigService) {}
+    constructor(private configService: ConfigService, private signatureService: SignatureService) {}
 
   use(req: Request, res: Response, next: NextFunction) {
     if (!this.isClientHeaderValid(req)) {
@@ -26,15 +26,7 @@ export class AuthMiddleware implements NestMiddleware {
   }
 
   isSignatureValid(req: Request): boolean {
-      return req.get(X_SIGNATURE) === this.calculateSignature(req);
+      return req.get(X_SIGNATURE) === this.signatureService.calculateSignature(req);
   }
 
-  calculateSignature(req: any): string {
-      const secret = this.configService.get('X_PRIVATE_KEY');
-      const payload = req.rawBody;
-      const signature = crypto.createHash('sha256');
-      signature.update(Buffer.from(payload, 'utf8'));
-      signature.update(Buffer.from(secret, 'utf8'));
-      return signature.digest('hex');
-  }
 }
