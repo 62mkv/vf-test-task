@@ -5,7 +5,6 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 import { FileDefinition } from "src/model/file-definition";
 
 export function fileDeleteAfterCompletion(file: FileDefinition): void {
-    console.log(`Removing path: ${file.path}`);
     fs.unlinkSync(file.path);
 }
 

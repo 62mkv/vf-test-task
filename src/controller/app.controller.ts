@@ -1,16 +1,16 @@
 import { Body, Controller, HttpException, HttpStatus, Logger, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AppService } from './app.service';
-import { ControlMode, FileControlInterceptor } from './interceptor/file-control.interceptor';
-import { SignupResult, SignupUserDetails, Success } from './model/signup';
-import { fileDeleteAfterCompletion, fileSizeChecker } from './utils/file-utils';
+import { AppService } from '../app.service';
+import { ControlMode, FileControlInterceptor } from '../interceptor/file-control.interceptor';
+import { SignupResult, SignupUserDetails, Success } from '../model/signup';
+import { fileDeleteAfterCompletion, fileSizeChecker } from '../utils/file-utils';
 
 const IMAGE_MIN_SIZE = 1000;
 const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
 
 @ApiTags('main')
-@Controller()
+@Controller('api/main')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
