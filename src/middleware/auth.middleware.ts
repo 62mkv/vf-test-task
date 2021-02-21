@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { ConfigProvider } from 'src/service/config.provider';
 import { SignatureService } from 'src/service/signature.service';
 
 const X_AUTH_CLIENT = 'x-auth-client';
@@ -8,7 +8,7 @@ const X_SIGNATURE = 'x-signature';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-    constructor(private configService: ConfigService, private signatureService: SignatureService) {}
+    constructor(private config: ConfigProvider, private signatureService: SignatureService) {}
 
   use(req: Request, res: Response, next: NextFunction) {
     if (!this.isClientHeaderValid(req)) {
@@ -22,11 +22,11 @@ export class AuthMiddleware implements NestMiddleware {
   }
 
   isClientHeaderValid(req: Request): boolean {
-      return req.get(X_AUTH_CLIENT) === this.configService.get('X_AUTH_CLIENT');
+      return req.get(X_AUTH_CLIENT) === this.config.getAuthClient();
   }
 
-  isSignatureValid(req: Request): boolean {
-      return req.get(X_SIGNATURE) === this.signatureService.calculateSignature(req);
+  isSignatureValid(req: any): boolean {
+      return this.signatureService.checkSignature(req.rawBody, req.get(X_SIGNATURE));
   }
 
 }

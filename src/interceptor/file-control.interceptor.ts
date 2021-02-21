@@ -1,4 +1,4 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler, HttpException } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { FileDefinition } from 'src/model/file-definition';

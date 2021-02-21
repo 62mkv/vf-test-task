@@ -1,6 +1,6 @@
 import { Body, Controller, Logger, Post } from "@nestjs/common";
 import { ApiExcludeEndpoint } from "@nestjs/swagger";
-import { DecisionPayload } from "src/model/decision";
+import { DecisionPayload } from "src/model/veriff.decision";
 
 @Controller('api/hooks')
 export class WebhookController {

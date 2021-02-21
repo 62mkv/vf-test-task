@@ -26,7 +26,7 @@ export class SignupUserDetails {
     @IsOlderThan(18, {
         message: "Must be older than 18 years"
     })
-    dateOfBirth: Date;
+    dateOfBirth: string;
     
     @ApiProperty({ description: "Email address", required: false, format: "email", example: "elon777@gmail.tg"}) 
     @IsEmail()
@@ -53,7 +53,7 @@ export class SignupUserDetails {
 
 export interface Success {
     kind: "success";
-    id: number
+    sessionId: string
 }
 
 export interface Failure {

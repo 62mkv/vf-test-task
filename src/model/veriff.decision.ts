@@ -62,6 +62,6 @@ export interface PersonData {
   },
   "technicalData": {
     "ip": "186.153.67.122"
-  }  
+  }
 }
  */
