@@ -19,6 +19,11 @@ async function bootstrap() {
     };
 
     const config = new DocumentBuilder()
+        .addBasicAuth()
+        .addBearerAuth({
+            type: 'http',
+            bearerFormat: 'JWT'
+        })
         .setTitle('CryptoWallet API')
         .setDescription('API for CryptoWallet.EE platform')
         .setVersion('1.0')

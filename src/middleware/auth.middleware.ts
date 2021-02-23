@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
-import { ConfigProvider } from 'src/service/config.provider';
+import { ConfigProvider } from 'src/config/config.provider';
 import { SignatureService } from 'src/service/signature.service';
 
 const X_AUTH_CLIENT = 'x-auth-client';

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as crypto from "crypto";
-import { ConfigProvider } from "./config.provider";
+import { ConfigProvider } from "../config/config.provider";
 
 @Injectable()
 export class SignatureService {

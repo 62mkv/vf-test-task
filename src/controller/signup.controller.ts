@@ -9,17 +9,17 @@ import { fileDeleteAfterCompletion, fileSizeChecker } from 'src/utils/file-utils
 const IMAGE_MIN_SIZE = 1000;
 const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
 
-@ApiTags('main')
-@Controller('api/main')
-export class AppController {
+@ApiTags('signup')
+@Controller('api/signup')
+export class SignupController {
     constructor(
         private signupService: SignupService
     ) { }
 
-    private readonly logger = new Logger(AppController.name);
+    private readonly logger = new Logger(SignupController.name);
 
     @Post('signup')
-    @ApiOperation({ summary: "SignUp at CryptoWallet" })
+    @ApiOperation({ summary: "Sign up at CryptoWallet" })
     @ApiConsumes('multipart/form-data')
     @UseInterceptors(
         FileInterceptor('documentImage', {

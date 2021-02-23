@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { HttpService, Injectable, Logger, LoggerService } from "@nestjs/common";
 import { SignupUserDetails } from "src/model/signup";
 import { SessionCreateRequest } from "src/model/veriff.session";
-import { ConfigProvider } from "./config.provider";
+import { ConfigProvider } from "../config/config.provider";
 import { SignatureService } from "./signature.service";
 
 const IMAGE_DIR = 'uploads';
@@ -88,7 +88,8 @@ export class VeriffService {
                     dateOfBirth: this.formatDate(accountDetails.dateOfBirth),
                 },
                 document: {
-                    number: 'B01234567',
+                    number: accountDetails.documentNumber,
+                    // some bits are hardcoded here, just for the sake of simplicity
                     type: 'ID_CARD',
                     country: 'EE'
                 },

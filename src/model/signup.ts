@@ -5,7 +5,7 @@ import { IsOlderThan } from "src/validation/date.validation";
 export type SignupResult = Success | Failure;
 
 export class SignupUserDetails {
-    @ApiProperty({ description: "Account name", required: true, minLength: 3, maxLength: 50, example: "satanBlockhain2007"}) 
+    @ApiProperty({ description: "Account name", required: true, minLength: 3, maxLength: 50, example: "satanBlockchain2007"}) 
     @IsAlphanumeric()
     @IsNotEmpty()
     @Length(3, 50)
@@ -37,6 +37,14 @@ export class SignupUserDetails {
     @IsNotEmpty()
     @Length(8)
     password: string;
+
+
+    @ApiProperty({ description: "Document ID", required: true, minLength: 4, maxLength: 20, example: "BC00437878"}) 
+    @IsAlphanumeric()
+    @IsNotEmpty()
+    @Length(4,20)
+    documentNumber: string;
+
 
     @ApiProperty({
         description: "Document image attachment (size 5Mb or less)",

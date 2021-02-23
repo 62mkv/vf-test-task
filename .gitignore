@@ -16,6 +16,9 @@ lerna-debug.log*
 # Upload storage
 /uploads
 
+# LevelDB database
+/db
+
 # OS
 .DS_Store
 
