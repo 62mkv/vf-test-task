@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { HttpService, Injectable, Logger, LoggerService } from "@nestjs/common";
-import { SignupUserDetails } from "src/model/signup";
+import { SignupUserDetails } from "src/model/signup.model";
 import { SessionCreateRequest } from "src/model/veriff.session";
 import { ConfigProvider } from "../config/config.provider";
 import { SignatureService } from "./signature.service";

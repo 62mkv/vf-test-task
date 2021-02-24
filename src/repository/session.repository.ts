@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import level from 'level-ts';
 import { ConfigProvider } from 'src/config/config.provider';
-import { Session, SessionStatus } from 'src/model/session.dto';
-import { SignupUserDetails } from 'src/model/signup';
+import { Session, SessionStatus } from 'src/model/session.model';
+import { SignupUserDetails } from 'src/model/signup.model';
 
 @Injectable()
 export class SessionRepository {

@@ -69,3 +69,5 @@ export interface Failure {
     reason: string;
     details?: Object
 }
+
+export type CheckSessionResult = Success | Failure;

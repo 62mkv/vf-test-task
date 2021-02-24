@@ -31,4 +31,8 @@ export class UserRepository {
         return await this.db.get(username);
     }
 
+    public async checkUser(username: string): Promise<boolean> {
+        return await this.db.exists(username);
+    }
+
 }

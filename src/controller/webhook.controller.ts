@@ -1,6 +1,6 @@
 import { Body, Controller, Logger, Post } from "@nestjs/common";
 import { ApiExcludeEndpoint } from "@nestjs/swagger";
-import { SessionStatus } from "src/model/session.dto";
+import { SessionStatus } from "src/model/session.model";
 import { DecisionPayload } from "src/model/veriff.decision";
 import { SessionRepository } from "src/repository/session.repository";
 import { UserRepository } from "src/repository/user.repository";
@@ -19,6 +19,7 @@ export class WebhookController {
     async decision(@Body() decisionPayload: DecisionPayload) {
         await this.sessionRepository.updateSessionStatus(decisionPayload.verification.id,  decisionPayload.verification.status);
 
+        // TODO: we'd need something to purge those sessions; maybe on first successful login ? 
         const session = await this.sessionRepository.getSession(decisionPayload.verification.id);
 
         if (session.status === SessionStatus.APPROVED) {

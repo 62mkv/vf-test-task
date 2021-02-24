@@ -1,8 +1,8 @@
-import { Body, Controller, HttpException, HttpStatus, Logger, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Logger, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ControlMode, FileControlInterceptor } from 'src/interceptor/file-control.interceptor';
-import { SignupResult, SignupUserDetails, Success } from 'src/model/signup';
+import { CheckSessionResult, SignupResult, SignupUserDetails, Success } from 'src/model/signup.model';
 import { SignupService } from 'src/service/signup.service';
 import { fileDeleteAfterCompletion, fileSizeChecker } from 'src/utils/file-utils';
 
@@ -18,7 +18,7 @@ export class SignupController {
 
     private readonly logger = new Logger(SignupController.name);
 
-    @Post('signup')
+    @Post()
     @ApiOperation({ summary: "Sign up at CryptoWallet" })
     @ApiConsumes('multipart/form-data')
     @UseInterceptors(
@@ -42,11 +42,15 @@ export class SignupController {
         @Body() userDetails: SignupUserDetails,
         @UploadedFile() documentImage: any
     ): Promise<SignupResult> {
-        this.logger.log(userDetails.firstName + ' ' + userDetails.lastName);
         userDetails.documentImage = documentImage;
-        this.logger.log(`Provided documentImage: ${JSON.stringify(userDetails.documentImage)}`);
         const sessionId = await this.signupService.startSignupProcess(userDetails);
         return { sessionId: sessionId, kind: "success" };
     }
 
+    @Get(':id')
+    @ApiOperation({ summary: "Check session status"})
+    @ApiParam({schema: {type: "string"}, name: "id"})
+    async checkSession(@Param() params): Promise<CheckSessionResult> {
+        return await this.signupService.checkSession(params.id);
+    }
 }
